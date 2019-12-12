@@ -9,7 +9,8 @@ class App extends Component {
 
     this.state = {
       monsters: [],
-      searchField: ''
+      searchField: '', 
+      title: ''
     };
   }
 
@@ -19,20 +20,20 @@ class App extends Component {
     .then(users => this.setState({monsters: users}))
   }
 
+  onSearchChange = event => {
+    this.setState({searchField: event.target.value, title: event.target.value});
+  };
+
   render() {
-    const monsters = this.state.monsters;
-    const searchField = this.state.searchField;
+    const {monsters, searchField, title} = this.state;
     const filteredMonsters = monsters.filter(props =>
       props.name.toLowerCase().includes(searchField.toLowerCase())  
     );
 
     return (
-      <div className="App">
-        <h1> Monster Rolodex </h1>
-        <SearchBox
-          placeholder='search monsters'
-          handleChange={e => {this.setState({ searchField: e.target.value }, () => console.log(this.state));}}
-        />
+      <div className='App'>
+      <h1>{title}</h1>
+        <SearchBox placeholder="Search here.." handleChange={this.onSearchChange}/>
         <CardList monsters={filteredMonsters}/>
       </div>
     );
